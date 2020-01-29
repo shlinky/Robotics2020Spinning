@@ -13,10 +13,10 @@
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc/buttons/JoystickButton.h>
 #include <frc/Joystick.h>
-#include <ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h>
+#include <ctre/phoenix.h>
+#include "ControlPanelSpin.h"
 
-#define wheelCircum (4 * 3.14);
-#define cpCircum 100;
+#define JOYSTICKPORT (0)
 
 class Robot : public frc::TimedRobot {
  public:
@@ -30,4 +30,5 @@ class Robot : public frc::TimedRobot {
   std::string m_autoSelected;
   frc::Joystick* joystick;
   frc::JoystickButton* action;
+  ControlPanelSpin cps;
 };

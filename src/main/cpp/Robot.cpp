@@ -16,8 +16,11 @@ void Robot::RobotInit() {
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
-  joystick = new frc::Joystick(22);
+  joystick = new frc::Joystick(JOYSTICKPORT);
   action = new frc::JoystickButton(joystick, 1);
+
+  cps = ControlPanelSpin();
+  cps.setSpinMode(SpinMode::Rotation);
 }
 
 /**
@@ -29,23 +32,10 @@ void Robot::RobotInit() {
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() {
-  // if (action.Get()) {
-
-  // }
+  if (action->Get()) {
+    cps.startSpin();
+  }
 }
-
-/**
- * This autonomous (along with the chooser code above) shows how to select
- * between different autonomous modes using the dashboard. The sendable chooser
- * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
- * remove all of the chooser code and uncomment the GetString line to get the
- * auto name from the text box below the Gyro.
- *
- * You can add additional auto modes by adding additional comparisons to the
- * if-else structure below with additional strings. If using the SendableChooser
- * make sure to add them to the chooser code above as well.
- */
-
 
 #ifndef RUNNING_FRC_TESTS
 int main() { return frc::StartRobot<Robot>(); }
