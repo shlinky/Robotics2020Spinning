@@ -22,7 +22,8 @@ void Robot::RobotInit() {
   action = new frc::JoystickButton(joystick, 1);
 
   cps = ControlPanelSpin();
-  cps.setSpinMode(SpinMode::Rotation);
+  cps.setSpinMode(SpinMode::ColorDetection);
+  cps.setCurrentColorTarget(ControlPanelSpin::kRedTarget);
 }
 
 /**
@@ -40,9 +41,9 @@ void Robot::RobotPeriodic() {
 void Robot::TeleopInit() {}
 void Robot::TeleopPeriodic() {
   if (action->Get()) {
-    frc::DriverStation::ReportError("FUCK");
     cps.startSpin();
   }
+  cps.checkIfComplete();
 }
 #ifndef RUNNING_FRC_TESTS
 int main() { return frc::StartRobot<Robot>(); }
