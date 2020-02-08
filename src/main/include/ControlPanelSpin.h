@@ -6,11 +6,11 @@
 #include <frc/buttons/JoystickButton.h>
 #include <frc/Joystick.h>
 #include <ctre/phoenix.h>
-
+#include <stdlib.h>
 #define wheelCircum (4 * 3.1)
 #define cpCircum (100)
 #define ticksPerRotation (50)
-#define TALONPORT (0)
+#define TALONPORT (20)
 
 enum SpinMode {Rotation = 0, ColorDetection = 1};
 

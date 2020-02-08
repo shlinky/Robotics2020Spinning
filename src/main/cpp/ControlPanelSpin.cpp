@@ -5,12 +5,16 @@
 #include <iostream>
 
 #include <frc/smartdashboard/SmartDashboard.h>
+#include "frc/DriverStation.h"
+#include <string>
 
 ControlPanelSpin::ControlPanelSpin()
 {
     talon = new TalonSRX(TALONPORT);
-
+    
     numRotations = 3;
+
+    talon->SetSelectedSensorPosition(0, 0);
 }
 
 /**
@@ -28,8 +32,11 @@ bool ControlPanelSpin::setNumRotations(int num) {
 
 bool ControlPanelSpin::startSpin() {
     if (mode == SpinMode::Rotation) {
-        float rotationAmount = (cpCircum / wheelCircum) * numRotations;
-        talon->Set(ControlMode::Position, rotationAmount);
+        if (talon->GetSelectedSensorPosition(0) == 0) {
+            frc::DriverStation::ReportError(std::to_string(talon->GetSelectedSensorPosition(0)));
+            float rotationAmount = (cpCircum / wheelCircum) * numRotations * ticksPerRotation;
+            talon->Set(ControlMode::Position, rotationAmount);
+        }
     }
     return true;
 }
@@ -40,5 +47,9 @@ bool ControlPanelSpin::setSpinMode(enum SpinMode m) {
 }
 
 bool ControlPanelSpin::checkIfComplete() {
-    return true;
+    if (mode == SpinMode::Rotation) {
+        if (talon->GetSelectedSensorPosition(0) == ((cpCircum / wheelCircum) * numRotations * ticksPerRotation)) {
+            talon->SetSelectedSensorPosition(0, 0);
+        }
+    }
 }

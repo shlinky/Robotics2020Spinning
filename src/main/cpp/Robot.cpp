@@ -11,6 +11,8 @@
 
 #include <frc/smartdashboard/SmartDashboard.h>
 
+#include "frc/DriverStation.h"
+
 void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
@@ -32,11 +34,16 @@ void Robot::RobotInit() {
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() {
+  
+}
+
+void Robot::TeleopInit() {}
+void Robot::TeleopPeriodic() {
   if (action->Get()) {
+    frc::DriverStation::ReportError("FUCK");
     cps.startSpin();
   }
 }
-
 #ifndef RUNNING_FRC_TESTS
 int main() { return frc::StartRobot<Robot>(); }
 #endif
