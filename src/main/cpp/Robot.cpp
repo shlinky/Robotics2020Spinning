@@ -20,9 +20,10 @@ void Robot::RobotInit() {
 
   joystick = new frc::Joystick(JOYSTICKPORT);
   action = new frc::JoystickButton(joystick, 1);
+  action1 = new frc::JoystickButton(joystick, 2);
 
   cps = ControlPanelSpin();
-  cps.setSpinMode(SpinMode::ColorDetection);
+  cps.setSpinMode(SpinMode::Rotation);
   cps.setCurrentColorTarget(ControlPanelSpin::kRedTarget);
 }
 
@@ -42,6 +43,14 @@ void Robot::TeleopInit() {}
 void Robot::TeleopPeriodic() {
   if (action->Get()) {
     cps.startSpin();
+  }
+  if (action1->Get()) {
+    if (cps.getSpinMode() == SpinMode::Rotation) {
+      cps.setSpinMode(SpinMode::ColorDetection);
+    }
+    else {
+      cps.setSpinMode(SpinMode::Rotation);
+    }
   }
   cps.checkIfComplete();
 }

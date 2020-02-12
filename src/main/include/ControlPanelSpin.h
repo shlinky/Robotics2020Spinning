@@ -13,7 +13,7 @@
 
 #define wheelCircum (4 * 3.1)
 #define cpCircum (100)
-#define ticksPerRotation (50)
+#define ticksPerRotation (4096)
 #define TALONPORT (20)
 
 enum SpinMode {Rotation = 0, ColorDetection = 1};
@@ -26,6 +26,7 @@ class ControlPanelSpin {
   bool startSpin();
   bool checkIfComplete();
   bool setSpinMode(enum SpinMode m);
+  enum SpinMode getSpinMode();
 
   static constexpr frc::Color kBlueTarget = frc::Color(0.143, 0.427, 0.429);
   static constexpr frc::Color kGreenTarget = frc::Color(0.197, 0.561, 0.240);
@@ -39,4 +40,5 @@ class ControlPanelSpin {
   rev::ColorSensorV3* m_colorSensor;
   rev::ColorMatch m_colorMatcher;
   frc::Color currentTarget;
+  bool positionDone;
 };

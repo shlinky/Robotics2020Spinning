@@ -15,7 +15,8 @@ ControlPanelSpin::ControlPanelSpin()
     numRotations = 3;
 
     talon->SetSelectedSensorPosition(0, 0);
-    
+    positionDone = true;
+
     static constexpr auto i2cPort = frc::I2C::Port::kOnboard;
     m_colorSensor = new rev::ColorSensorV3(i2cPort);
 
@@ -39,7 +40,9 @@ bool ControlPanelSpin::setCurrentColorTarget(frc::Color target) {
 bool ControlPanelSpin::startSpin() {
     if (mode == SpinMode::Rotation) {
         frc::DriverStation::ReportError(std::to_string(talon->GetSelectedSensorPosition(0)));
-        if (talon->GetSelectedSensorPosition(0) == 0) {
+        if (positionDone) {
+            positionDone = false;
+            talon->SetSelectedSensorPosition(0, 0);
             float rotationAmount = (cpCircum / wheelCircum) * numRotations * ticksPerRotation;
             talon->Set(ControlMode::Position, rotationAmount);
         }
@@ -55,10 +58,14 @@ bool ControlPanelSpin::setSpinMode(enum SpinMode m) {
     return true;
 }
 
+enum SpinMode ControlPanelSpin::getSpinMode() {
+    return mode;
+}
+
 bool ControlPanelSpin::checkIfComplete() {
     if (mode == SpinMode::Rotation) {
         if (talon->GetSelectedSensorPosition(0) >= ((cpCircum / wheelCircum) * numRotations * ticksPerRotation)) {
-            talon->SetSelectedSensorPosition(0, 0);
+            positionDone = true;
             return true;
         }
         return false;

@@ -31,5 +31,6 @@ class Robot : public frc::TimedRobot {
   std::string m_autoSelected;
   frc::Joystick* joystick;
   frc::JoystickButton* action;
+  frc::JoystickButton* action1;
   ControlPanelSpin cps;
 };
